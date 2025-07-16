@@ -210,4 +210,4 @@ if __name__ == "__main__":
     if DISCORD_TOKEN and GOOGLE_API_KEY:
         client.run(DISCORD_TOKEN)
     else:
-        print("오류: .env 파일에 디스코드 토큰 또는 구글 API 키가 설정되지 않았습니다.")```
+        print("오류: .env 파일에 디스코드 토큰 또는 구글 API 키가 설정되지 않았습니다.")
