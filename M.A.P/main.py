@@ -5,7 +5,7 @@ import json
 from dotenv import load_dotenv
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import re
 
 # --- 0. 초기 설정 ---
@@ -159,10 +159,15 @@ async def set_allergy_info(user_id, enabled: bool):
 
 async def get_meal_menu(day, meal_type, show_allergy_info: bool, allergy_map: dict):
     """급식 메뉴와 함께 해당 메뉴에 포함된 알레르겐 리스트를 반환합니다."""
-    now = datetime.now()
+    # --- [수정 2] 한국 시간대(KST, UTC+9)를 정의합니다. ---
+    KST = timezone(timedelta(hours=9))
+    # --- [수정 3] 서버 시간이 아닌, 한국 시간 기준으로 현재 시각을 가져옵니다. ---
+    now = datetime.now(KST)
+
     target_date = now
     if day == "내일": target_date += timedelta(days=1)
     elif day == "어제": target_date -= timedelta(days=1)
+    now = datetime.now()
     year = target_date.year; month = target_date.month
     url = f"https://school.koreacharts.com/school/meals/B000012653/contents.html?year={year}&month={month}"
     try:
